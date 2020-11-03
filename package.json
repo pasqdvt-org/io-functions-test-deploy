@@ -18,7 +18,8 @@
     "lint-api": "oval validate -p openapi/index.yaml",
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
-    "predeploy": "npm-run-all build dist:modules"
+    "predeploy": "npm-run-all build dist:modules",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
