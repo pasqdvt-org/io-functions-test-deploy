@@ -70,6 +70,3 @@ stages:
       - job: healthcheck      
         steps:
         - template: azure-templates/test-healthcheck.yml
-          parameters:
-            semver: '${{ parameters.RELEASE_SEMVER }}'
-
