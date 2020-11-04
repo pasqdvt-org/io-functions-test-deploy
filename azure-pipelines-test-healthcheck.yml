@@ -1,64 +1,9 @@
-variables:
-  NODE_VERSION: '10.14.1'
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+# manual execution
+trigger: none
+pr: none
 
-parameters:
-  - name: 'TEST_ENABLE_DEPLOY'
-    displayName: 'Enable deploy in test environment'
-    type: boolean
-    default: false
-
-  - name: 'TEST_DEPLOY_TYPE'
-    displayName: 'Method to achieve deployment in Test (if enabled):'
-    type: string
-    default: deployToTestSlot
-    values:
-      - deployToTestSlot  
-      - deployToProductionSlot
-
-  - name: 'PRODUCTION_ENABLE_DEPLOY'
-    displayName: 'Enable deploy in production environment'
-    type: boolean
-    default: true
-
-  - name: 'PRODUCTION_DEPLOY_TYPE'
-    displayName: 'Method to achieve deployment in Production (if enabled):'
-    type: string
-    default: deployToStagingSlotAndSwap
-    values:
-      - deployToStagingSlot  
-      - deployToProductionSlot
-      - deployToStagingSlotAndSwap
-
-  - name: 'RELEASE_SEMVER'
-    displayName: 'When packing a release, define the version bump to apply'
-    type: string
-    values:
-      - major
-      - minor
-      - patch
-    default: patch
-
-# This pipeline can be manually run or is automatically triggered whenever one 
-# of the following conditions is true:
-# - a push is made to any branch in the repository (not only 'master')
-# - a pull request is created
-# - a tag named 'latest' is pushed
-# Note. In the last case, the tag can be (re-)created using the Git CLI, e.g.:
-#    git push -f origin <abfb967>:refs/tags/latest
-trigger:
-  branches:
-    include:
-      - '*'
-      - refs/tags/latest
-
-# This pipeline has been implemented to be run on hosted agent pools based both
-# on 'windows' and 'ubuntu' virtual machine images and using the scripts defined
-# in the package.json file. Since we are deploying on Azure functions on Windows
-# runtime, the pipeline is currently configured to use a Windows hosted image for
-# the build and deploy.
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 stages:
 
@@ -70,3 +15,7 @@ stages:
       - job: healthcheck      
         steps:
         - template: azure-templates/test-healthcheck.yml
+          parameters:
+            azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
+            resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
+            appName: '$(PRODUCTION_APP_NAME)'
