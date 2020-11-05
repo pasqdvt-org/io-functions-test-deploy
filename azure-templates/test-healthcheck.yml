@@ -26,6 +26,11 @@ parameters:
     type: string
     default: '0.5'
 
+  # the resource group must be the same where vnet is created
+  - name: 'containerInstanceResourceGroup'
+    type: string
+    default: 'io-d-rg-tdeploy'
+
   - name: 'containerInstanceVNet'
     type: string
     default: 'io-d-vnet-tdeploy'
@@ -45,10 +50,26 @@ steps:
       inlineScript: |
         # define a temporary container instance name
         CONTAINER_INSTANCE_NAME="${{ parameters.appName }}-deploy"
-        
+
+        OUTPUT_VNET=$(az network vnet list --resource-group '${{ parameters.containerInstanceResourceGroup }}' --query "[?contains(name, '${{ parameters.containerInstanceVNet }}')].name" --output tsv)
+        if [ "$OUTPUT_VNET" = "'${{ parameters.containerInstanceVNet }}'" ]; then
+          echo "VNET found, continue"
+        else
+          echo "VNET not found, fail"
+          exit 1
+        fi
+
+        OUTPUT_SUBNET=$(az network vnet subnet list --resource-group '${{ parameters.containerInstanceResourceGroup }}' --query "[?contains(name, '${{ parameters.containerInstanceSubnet }}')].name" --output tsv)
+        if [ "$OUTPUT_SUBNET" = "'${{ parameters.containerInstanceSubnet }}'" ]; then
+          echo "SUBNET found, continue"
+        else
+          echo "SUBNET not found, fail"
+          exit 1
+        fi
+
         # create, run container instance in subnet, and get exit code
         OUTPUT_CREATE=$(az container create \
-                         --resource-group '${{ parameters.resourceGroupName }}' \
+                         --resource-group '${{ parameters.containerInstanceResourceGroup }}' \
                          --name ${CONTAINER_INSTANCE_NAME} \
                          --image microsoft/azure-cli:latest \
                          --cpu '${{ parameters.containerInstanceCpu }}' \
