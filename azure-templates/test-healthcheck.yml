@@ -29,7 +29,7 @@ parameters:
   # the resource group must be the same where vnet is created
   - name: 'containerInstanceResourceGroup'
     type: string
-    default: 'io-d-rg-tdeploy'
+    default: 'io-c-rg-tdeploy'
 
   - name: 'containerInstanceVNet'
     type: string
@@ -79,7 +79,7 @@ steps:
                          --restart-policy Never \
                          --vnet '${{ parameters.containerInstanceVNet }}' \
                          --subnet '${{ parameters.containerInstanceSubnet }}' \
-                         --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ko'" \
+                         --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
                          --output tsv \
                          --query containers[].instanceView.currentState.exitCode)
         
