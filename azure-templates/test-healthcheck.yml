@@ -29,11 +29,11 @@ parameters:
   # the resource group must be the same where vnet is created
   - name: 'containerInstanceResourceGroup'
     type: string
-    default: 'io-c-rg-tdeploy'
+    default: 'io-d-rg-tdeploy'
 
   - name: 'containerInstanceVNet'
     type: string
-    default: 'io-d-vnet-tdeploy'
+    default: 'io-c-vnet-tdeploy'
 
   - name: 'containerInstanceSubnet'
     type: string
