@@ -37,7 +37,7 @@ parameters:
 
   - name: 'containerInstanceSubnet'
     type: string
-    default: 'cg-tdeploy-err'
+    default: 'cg-tdeploy'
     
 steps:
   - task: AzureCLI@2
