@@ -62,7 +62,7 @@ steps:
 
     echo "##vso[task.setvariable variable=tag]$NEXT_VERSION"
     echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
-    echo "##vso[task.setvariable variable=tag]$HEAD_SHA"
+    echo "##vso[task.setvariable variable=tag]$TAG"
   displayName: 'set release variables'
 
 - script: |
