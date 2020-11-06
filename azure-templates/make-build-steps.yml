@@ -30,6 +30,9 @@ steps:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
 - script: |
+    git checkout master && git pull
+  displayName: 'commit'  
+- script: |
     git rev-parse HEAD
   displayName: 'commit'
     
