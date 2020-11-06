@@ -38,6 +38,13 @@ parameters:
       - minor
       - patch
     default: patch
+  
+  - name: 'DEPLOY_GIT_REFERENCE'
+    displayName: |
+      A git reference from which start a deploy. It could be a branch name, a tag or a commit sha.
+      You may need to set it when deploying without packaging a release (maybe providing a tag for a revious release)
+    type: string
+    default: master
 
 # This pipeline can be manually run or is automatically triggered whenever one 
 # of the following conditions is true:
@@ -89,3 +96,4 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: build
+            reference: $(DEPLOY_GIT_REFERENCE)
