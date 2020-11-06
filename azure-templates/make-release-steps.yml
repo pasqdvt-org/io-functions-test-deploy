@@ -66,7 +66,7 @@ steps:
   displayName: 'set release variables'
 
 - script: |
-    echo "Creating '$(title)' for commit '$(sha)' with tag '$(tag)'"
+    echo "Creating $title for commit $sha with tag $tag"
   displayName: 'print release variables'
 
 - task: GitHubRelease@0
