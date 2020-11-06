@@ -60,7 +60,7 @@ steps:
     TAG="v$NEXT_VERSION"
 
 
-    echo "##vso[task.setvariable variable=tag]$NEXT_VERSION"
+    echo "##vso[task.setvariable variable=title]$TITLE"
     echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
     echo "##vso[task.setvariable variable=tag]$TAG"
   displayName: 'set release variables'
@@ -78,5 +78,5 @@ steps:
     target: $(sha)
     tagSource: manual
     tag: $(tag)
-    title: $(rtitle)
+    title: $(title)
     addChangelog: true
