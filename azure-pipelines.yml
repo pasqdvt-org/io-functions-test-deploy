@@ -72,5 +72,7 @@ stages:
         - template: azure-templates/make-release-steps.yml
           parameters:
             semver: '${{ parameters.RELEASE_SEMVER }}'
-            gitHubConnection: balanza
+            gitEmail: $(GIT_EMAIL)
+            gitUsername: $(GIT_USERNAME)
+            gitHubConnection: $(GITHUB_CONNECTION)
 
