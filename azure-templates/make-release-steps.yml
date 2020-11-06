@@ -7,6 +7,8 @@ parameters:
   - major
   - minor
   - patch
+- name: 'gitHubConnection'
+  type: string
 
 - name: 'cache_version_id'
   type: string
@@ -19,16 +21,8 @@ steps:
   persistCredentials: true
 
 - script: |
-    git status
-  displayName: 'git status'
-
-- script: |
     git checkout master
   displayName: 'git ch master'
-
-- script: |
-    git status
-  displayName: 'git status 2'
       
 - task: Cache@2
   inputs:
@@ -56,49 +50,28 @@ steps:
   displayName: 'Version bump and tag'
 
 - script: |
-    git status
-  displayName: 'git status 3'
-
-- script: |
-    git log -n 2
-  displayName: 'git log'
-
-- script: |
-    git log -n 2
-  displayName: 'git log'
-
-
-- script: |
     git push --follow-tags origin master 
   displayName: 'Push'
 
 - script: |
-    git rev-parse HEAD
-  displayName: 'show commit sha'
+    NEXT_VERSION=$(node -p "require('./package.json').version")
+    HEAD_SHA=$(git rev-parse HEAD)
+    TITLE="Release $NEXT_VERSION"
+    TAG="v$NEXT_VERSION"
+
+
+    echo "##vso[task.setvariable variable=tag]$NEXT_VERSION"
+    echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
+    echo "##vso[task.setvariable variable=tag]$HEAD_SHA"
+  displayName: 'set release variables'
 
 - script: |
-    FOO=v$(node -p "require('./package.json').version")
-    echo "##vso[task.setvariable variable=tag]$FOO"
-  displayName: 'set version tag var'
-
-- script: |
-    FOO=$(git rev-parse HEAD)
-    echo "##vso[task.setvariable variable=sha]$FOO"
-  displayName: 'set version sha var'
-
-- script: |
-    BAR=$(node -p "require('./package.json').version")
-    FOO="Release $BAR"
-    echo "##vso[task.setvariable variable=rtitle]$FOO"
-  displayName: 'set version rtitle var'
-
-- script: |
-    node -p "require('./package.json').version"
-  displayName: 'version'
+    echo "Creating '$(title)' for commit '$(sha)' with tag '$(tag)'"
+  displayName: 'print release variables'
 
 - task: GitHubRelease@0
   inputs:
-    gitHubConnection: balanza
+    gitHubConnection: ${{ parameters.gitHubConnection }}
     repositoryName: $(Build.Repository.Name)
     action: create
     target: $(sha)
