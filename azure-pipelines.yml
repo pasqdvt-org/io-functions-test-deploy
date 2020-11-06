@@ -57,7 +57,8 @@ trigger:
 # in the package.json file. Since we are deploying on Azure functions on Windows
 # runtime, the pipeline is currently configured to use a Windows hosted image for
 # the build and deploy.
-
+pool:
+  vmImage: 'windows-2019'
 
 stages:
 
@@ -77,3 +78,13 @@ stages:
             gitUsername: $(GIT_USERNAME)
             gitHubConnection: $(GITHUB_CONNECTION)
 
+  # B) Build and code validation
+  - stage: Build
+    dependsOn: []
+    jobs:
+      # A1) Checkout, install module and build code
+      - job: make_build      
+        steps:
+        - template: azure-templates/make-build-steps.yml
+          parameters:
+            make: build
