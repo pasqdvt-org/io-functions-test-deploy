@@ -57,13 +57,14 @@ trigger:
 # in the package.json file. Since we are deploying on Azure functions on Windows
 # runtime, the pipeline is currently configured to use a Windows hosted image for
 # the build and deploy.
-pool:
-  vmImage: 'ubuntu-latest'
+
 
 stages:
 
   # A) pack release
   - stage: Release
+    pool:
+      vmImage: 'ubuntu-latest'
     dependsOn: []
     jobs:
       # A1) 
