@@ -80,7 +80,8 @@ stages:
 
   # B) Build and code validation
   - stage: Build
-    dependsOn: []
+    dependsOn: 
+      - Release
     jobs:
       # A1) Checkout, install module and build code
       - job: make_build      
