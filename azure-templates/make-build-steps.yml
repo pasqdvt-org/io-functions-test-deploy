@@ -29,6 +29,9 @@ steps:
   inputs:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
+- script: |
+    git rev-parse HEAD
+  displayName: 'commit'
     
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
