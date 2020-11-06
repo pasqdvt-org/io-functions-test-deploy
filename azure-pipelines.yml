@@ -76,7 +76,7 @@ stages:
             semver: '${{ parameters.RELEASE_SEMVER }}'
             gitEmail: $(GIT_EMAIL)
             gitUsername: $(GIT_USERNAME)
-            gitHubConnection: pagopa-github-bot
+            gitHubConnection: balanza
 
   # B) Build and code validation
   - stage: Build

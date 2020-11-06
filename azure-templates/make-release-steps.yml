@@ -28,7 +28,7 @@ steps:
 
 - script: |
     git checkout master
-  displayName: 'git ch master'
+  displayName: 'Checkout master'
       
 - task: Cache@2
   inputs:
@@ -57,7 +57,7 @@ steps:
 
 - script: |
     git push --follow-tags origin master 
-  displayName: 'Push'
+  displayName: 'Push to master'
 
 - script: |
     NEXT_VERSION=$(node -p "require('./package.json').version")
@@ -67,7 +67,7 @@ steps:
     echo "##vso[task.setvariable variable=title]$TITLE"
     echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
     echo "##vso[task.setvariable variable=tag]$TAG"
-  displayName: 'set release variables'
+  displayName: 'Set release variables'
 
 - task: GitHubRelease@0
   inputs:
