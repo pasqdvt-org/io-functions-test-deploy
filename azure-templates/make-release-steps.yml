@@ -66,6 +66,7 @@ steps:
   displayName: 'set release variables'
 
 - script: |
+    echo $title
     echo "Creating $title for commit $sha with tag $tag"
   displayName: 'print release variables'
 
