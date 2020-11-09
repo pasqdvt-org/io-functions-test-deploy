@@ -57,7 +57,9 @@ steps:
 
 - script: |
     NEXT_VERSION=$(node -p "require('./package.json').version")
-    git tag v$NEXT_VERSION-RELEASE
+    REL_TAG=v$(NEXT_VERSION)-RELEASE
+    git tag $REL_TAG
+    echo $REL_TAG
   displayName: 'Add custom RELEASE tag'
 
 - script: |
