@@ -139,7 +139,7 @@ stages:
   # C) Create a relase
   # Activated when all these are met:
   # - is a manual trigger
-  # - is on branch master or a tag in the format v{version}-RELEASE
+  # - is on branch master
   # - DO_RELEASE is true
   - stage: Release
     condition: 
@@ -150,10 +150,7 @@ stages:
           and(
             or(
               eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-              and(
-                startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
-                endsWith(variables['Build.SourceBranch'], '-RELEASE')
-              )
+              endsWith(variables['Build.SourceBranch'], '-RELEASE')
             ),
             eq(variables['Build.Reason'], 'Manual')
           )
@@ -167,10 +164,6 @@ stages:
     jobs:
       - job: make_release      
         steps:
-        - script:
-            echo "Skipping release cause it ain't master"
-          displayName: 'Skipping reason'
-        
         - template: azure-templates/make-release-steps.yml
           parameters:
             semver: '${{ parameters.RELEASE_SEMVER }}'
@@ -207,13 +200,12 @@ stages:
               azureSubscription: '$(TEST_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(TEST_RESOURCE_GROUP_NAME)'
               appName: '$(TEST_APP_NAME)'
-              containerInstanceResourceGroup: "io-d-rg-tdeploy"
-              containerInstanceVNet: "io-d-vnet-tdeploy"
               # The following condition is the same that triggers the Relase stage
               # The meaning is: if we did a Release, then the Build.SourceVersion doesn't reference the latest commit on master anymore
               # Hence we have to tell the task to pull from Github before building the code
               # As we do releases only from master, we can override the SourceVersion by just tell to pull from master
-              gitReference: $(Build.SourceBranch)
+              ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+                gitReference: 'master'
 
 
   # E) Deploy to PRODUCTION environment if one of the following conditions apply:
@@ -245,11 +237,10 @@ stages:
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
               appName: '$(PRODUCTION_APP_NAME)'
-              containerInstanceResourceGroup: "io-d-rg-tdeploy"
-              containerInstanceVNet: "io-d-vnet-tdeploy"
               # The following condition is the same that triggers the Relase stage
               # The meaning is: if we did a Release, then the Build.SourceVersion doesn't reference the latest commit on master anymore
               # Hence we have to tell the task to pull from Github before building the code
               # As we do releases only from master, we can override the SourceVersion by just tell to pull from master
-              gitReference: $(Build.SourceBranch)
+              ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+                gitReference: 'master'
 
