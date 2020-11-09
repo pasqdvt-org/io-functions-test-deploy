@@ -58,6 +58,9 @@ parameters:
     default: $(Build.SourceVersion)
     
 steps:
+  - script: |
+      echo ${{ parameters.gitReference }}
+    displayName: 'P'
   - template: ./make-build-steps.yml
     parameters:
       make: predeploy_build
