@@ -1,3 +1,7 @@
+dependency "subnet" {
+  config_path = "../subnet"
+}
+
 # Internal
 dependency "resource_group" {
   config_path = "../../resource_group"
@@ -13,7 +17,7 @@ include {
 }
 
 terraform {
-  source = "git::git@github.com:pagopa/io-infrastructure-modules-new.git//azurerm_function_app?ref=v2.1.0"
+  source = "git::git@github.com:pagopa/io-infrastructure-modules-new.git//azurerm_function_app?ref=v2.1.10"
 }
 
 inputs = {
@@ -55,4 +59,9 @@ inputs = {
     map          = {}
   }
 
+  allowed_subnets = [
+    dependency.subnet.outputs.id
+  ]
+
+  subnet_id       = dependency.subnet.outputs.id
 }

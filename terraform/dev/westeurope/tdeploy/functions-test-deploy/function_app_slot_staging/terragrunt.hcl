@@ -2,6 +2,10 @@ dependency "function_app" {
   config_path = "../function-app"
 }
 
+dependency "subnet" {
+  config_path = "../subnet"
+}
+
 # Internal
 dependency "resource_group" {
   config_path = "../../resource_group"
@@ -11,13 +15,17 @@ dependency "application_insights" {
   config_path = "../../application_insights"
 }
 
+dependency "subnet_azure_devops" {
+  config_path = "../../subnet_azure_devops"
+}
+
 # Include all settings from the root terragrunt.hcl file
 include {
   path = find_in_parent_folders()
 }
 
 terraform {
-  source = "git::git@github.com:pagopa/io-infrastructure-modules-new.git//azurerm_function_app_slot?ref=v2.1.0"
+  source = "git::git@github.com:pagopa/io-infrastructure-modules-new.git//azurerm_function_app_slot?ref=v2.1.10"
 }
 
 inputs = {
@@ -57,5 +65,11 @@ inputs = {
     map          = {}
   }
 
+  allowed_subnets = [
+    dependency.subnet.outputs.id,
+    dependency.subnet_azure_devops.outputs.id
+  ]
+
+  subnet_id       = dependency.subnet.outputs.id
   function_app_id = dependency.function_app.outputs.id
 }
