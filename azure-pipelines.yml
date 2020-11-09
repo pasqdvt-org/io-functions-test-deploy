@@ -1,3 +1,45 @@
+# Azure DevOps pipeline to build, check source codes, run tests, and deploy.
+#
+# To make Danger JS run on a pull request you need to add the following pipeline 
+# variable and set it with a GitHub access token (scope public_repo); otherwise 
+# set its value to 'skip' without marking it secret: 
+# - DANGER_GITHUB_API_TOKEN
+#
+# To enable the bundle of a new release you need to configure the following 
+# global variable otherwise all the deployment jobs will be always skipped:
+# - DO_RELEASE = true
+# To enable the deployment in any environment you need to configure the following 
+# global variable otherwise all the deployment jobs will be always skipped:
+# - DO_DEPLOY = true
+#
+# you also need to configure the following additional parameters based on the 
+# environment(s) to update when running the pipeline:
+# - PRODUCTION_ENABLE_DEPLOY = true
+# - TEST_ENABLE_DEPLOY = true
+#
+# The following parameter and variables must also be set to run the deployment:
+# - PRODUCTION_DEPLOY_TYPE:
+#    -- 'deployToStagingSlot': deploy to 'staging' slot 
+#    -- 'deployToProductionSlot' (default): deploy to 'production' slot
+#    -- 'deployToStagingSlotAndSwap': deploy to 'staging' slot and then swap 
+# - PRODUCTION_AZURE_SUBSCRIPTION
+# - PRODUCTION_RESOURCE_GROUP_NAME
+# - PRODUCTION_APP_NAME
+#
+# - TEST_DEPLOY_TYPE:
+#      -- 'deployToTestSlot' (default): deploy to 'test' slot 
+#      -- 'deployToProductionSlot': deploy to 'production' slot (TEST env)
+# - TEST_AZURE_SUBSCRIPTION
+# - TEST_RESOURCE_GROUP_NAME
+# - TEST_APP_NAME
+# 
+# Please note that the deployment to a slot (e.g. 'staging') could automatically
+# trigger the swapping with 'production' slot if "auto swap" has been enabled in
+# the App service configuration. This also means that if the "auto swap" is on and 
+# you select 'deployToStagingSlotAndSwap' to swap 'staging' and 'production' slots
+# after deploying to 'staging', the swap task in this pipeline will probably fail
+# because conflicting with another (automatic) swap operation in progress.
+# 
 variables:
   NODE_VERSION: '10.14.1'
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
@@ -69,7 +111,6 @@ stages:
           parameters:
             make: build
 
-            
       # A2) Analyze source code to find errors with lint
       - job: lint
         pool:
@@ -145,18 +186,15 @@ stages:
     condition: 
       and(
         succeeded(),
-        and (
-          eq(variables['DO_RELEASE'], true),
-          and(
-            or(
-              eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-              and(
-                startsWith(variables['Build.SourceBranch'], 'refs/tags'),
-                endsWith(variables['Build.SourceBranch'], '-RELEASE')
-              )
-            ),
-            eq(variables['Build.Reason'], 'Manual')
-          )
+        and(
+          or(
+            eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+            and(
+              startsWith(variables['Build.SourceBranch'], 'refs/tags'),
+              endsWith(variables['Build.SourceBranch'], '-RELEASE')
+            )
+          ),
+          eq(variables['Build.Reason'], 'Manual')
         )
       )  
     dependsOn:
@@ -174,6 +212,10 @@ stages:
               gitEmail: $(GIT_EMAIL)
               gitUsername: $(GIT_USERNAME)
               gitHubConnection: $(GITHUB_CONNECTION)
+        - ${{ ne(variables['DO_RELEASE'], true) }}:    
+          - script: |
+              echo "Release stage disabled."
+            displayName: 'Skip release bundle'              
         - ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/master') }}:    
           - script: |
               echo "We assume this reference to be a valid release: $(Build.SourceBranch). Therefore, there is no need to bundle a new release."
