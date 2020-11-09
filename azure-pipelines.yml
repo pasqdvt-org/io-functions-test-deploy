@@ -78,7 +78,6 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: install_dependencies
-            gitReference: $(Build.SourceVersion)
 
         - script: |
             yarn lint
@@ -109,7 +108,6 @@ stages:
           - template: azure-templates/make-build-steps.yml
             parameters:
               make: install_dependencies
-              gitReference: $(Build.SourceVersion)
 
           - bash: |
               yarn danger ci
@@ -129,7 +127,6 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: install_dependencies
-            gitReference: $(Build.SourceVersion)
 
         - script: |
             yarn test:coverage
