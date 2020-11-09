@@ -150,7 +150,10 @@ stages:
           and(
             or(
               eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-              endsWith(variables['Build.SourceBranch'], '-RELEASE')
+              and(
+                startsWith(variables['Build.SourceBranch'], 'refs/tags')
+                endsWith(variables['Build.SourceBranch'], '-RELEASE')
+              )
             ),
             eq(variables['Build.Reason'], 'Manual')
           )
