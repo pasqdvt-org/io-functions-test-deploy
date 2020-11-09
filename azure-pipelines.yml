@@ -38,13 +38,6 @@ parameters:
       - minor
       - patch
     default: minor
-  
-  # A git reference from which start a deploy. It could be a branch name, a tag or a commit sha.
-  # You may need to set this when deploying without packaging a release (maybe providing a tag for a revious release)
-  - name: 'DEPLOY_GIT_REFERENCE'
-    displayName: 'Deploy git reference (set this only when skipping Release Stage)'
-    type: string
-    default: master
 
 # Feature branches triggers the pipeline for pull request testing
 # Master branch does't trigger the pipeline as it is meant to be the production branch
