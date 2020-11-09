@@ -67,7 +67,7 @@ steps:
     NEXT_VERSION=$(node -p "require('./package.json').version")
     HEAD_SHA=$(git rev-parse HEAD)
     TITLE="Release $NEXT_VERSION"
-    TAG="v$NEXT_VERSION"
+    TAG="v$NEXT_VERSION-RELEASE"
     echo "##vso[task.setvariable variable=title]$TITLE"
     echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
     echo "##vso[task.setvariable variable=tag]$TAG"
