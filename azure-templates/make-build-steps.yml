@@ -9,10 +9,6 @@ parameters:
   - build
   - predeploy_build
 
-# the branch, tag or commit to build
-- name: 'git_reference'
-  type: string
-
 - name: 'cache_version_id'
   type: string
   default: $(CACHE_VERSION_ID)

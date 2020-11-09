@@ -208,7 +208,8 @@ stages:
               azureSubscription: '$(TEST_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(TEST_RESOURCE_GROUP_NAME)'
               appName: '$(TEST_APP_NAME)'
-              git_reference: '$(DEPLOY_GIT_REFERENCE)'
+                - name: 'gitReference'
+: '$(DEPLOY_GIT_REFERENCE)'
 
 
   # E) Deploy to PRODUCTION environment if one of the following conditions apply:
@@ -243,5 +244,5 @@ stages:
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
               appName: '$(PRODUCTION_APP_NAME)'
-              git_reference: '$(DEPLOY_GIT_REFERENCE)'
+              gitReference: '$(DEPLOY_GIT_REFERENCE)'
 
