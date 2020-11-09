@@ -21,6 +21,11 @@ parameters:
   default: $(CACHE_VERSION_ID)
   
 steps:
+- ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+  - script: |
+      echo "Skipping"
+    displayName: 'Skip bro'
+
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
   - checkout: self
     displayName: 'Checkout'
