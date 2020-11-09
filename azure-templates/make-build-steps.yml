@@ -42,6 +42,10 @@ steps:
   - script: |
       git fetch && git checkout ${{ parameters.gitReference }}
     displayName: 'Checkout reference'  
+
+- script: |
+    echo $(git rev-parse HEAD)
+  displayName: 'Commit to be built'
     
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
