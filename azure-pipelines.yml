@@ -167,11 +167,11 @@ stages:
     jobs:
       - job: make_release      
         steps:
-        ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+          ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/master') }}:
           - script:
               echo "Skipping release cause it ain't master"
             displayName: 'Skipping reason'
-        ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+          ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
           - template: azure-templates/make-release-steps.yml
             parameters:
               semver: '${{ parameters.RELEASE_SEMVER }}'
