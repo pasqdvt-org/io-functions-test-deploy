@@ -16,7 +16,7 @@ parameters:
 # the branch, tag or commit to deploy
 - name: 'gitReference'
   type: string
-  default: 'boh'
+  default: '$(Build.SourceVersion)'
     
   
 steps:

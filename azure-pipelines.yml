@@ -68,6 +68,7 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: build
+            gitReference: $(Build.SourceVersion)
 
             
       # A2) Analyze source code to find errors with lint
