@@ -29,14 +29,15 @@ steps:
 - script: |
     git checkout master
   displayName: 'Checkout master'
-      
-- task: Cache@2
-  inputs:
-    key: 'yarn-${{ parameters.cache_version_id }} | "$(Agent.OS)" | yarn.lock'
-    restoreKeys: |
-      yarn-${{ parameters.cache_version_id }} | "$(Agent.OS)"
-    path: $(YARN_CACHE_FOLDER)
-  displayName: 'Cache yarn packages'
+
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:      
+  - task: Cache@2
+    inputs:
+      key: 'yarn-${{ parameters.cache_version_id }} | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn-${{ parameters.cache_version_id }} | "$(Agent.OS)"
+      path: $(YARN_CACHE_FOLDER)
+    displayName: 'Cache yarn packages'
 
 - task: UseNode@1
   inputs:
