@@ -35,6 +35,10 @@ steps:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
 
+- script: |
+    echo ${{ Build.SourceVersion }}
+  displayName: 'source version'
+
 # This is needed because the pipeline may point to a different commit than expected
 # The common case is when the previous stage pushed another commit
 - ${{ if eq(parameters.make, 'predeploy_build') }}:

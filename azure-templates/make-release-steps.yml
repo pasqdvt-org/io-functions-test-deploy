@@ -52,6 +52,10 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
+    echo ${{ Build.SourceVersion }}
+  displayName: 'source version'
+
+- script: |
     npm version ${{ parameters.semver }} --git-tag-version false
     NEXT_VERSION=$(node -p "require('./package.json').version")
     VER_TAG="v$NEXT_VERSION"
@@ -64,6 +68,11 @@ steps:
 - script: |
     git push --follow-tags origin master 
   displayName: 'Push to master'
+
+
+- script: |
+    echo ${{ Build.SourceVersion }}
+  displayName: 'source version'
 
 - script: |
     NEXT_VERSION=$(node -p "require('./package.json').version")
