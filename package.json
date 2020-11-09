@@ -3,7 +3,7 @@
   "description": "",
   "author": "IO team",
   "repository": "https://github.com/pagoPA/io-functions-template",
-  "version": "5.36.8",
+  "version": "5.36.9",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
