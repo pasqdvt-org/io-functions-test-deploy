@@ -8,13 +8,19 @@ parameters:
   - install_dependencies
   - build
   - predeploy_build
-  
-- name: 'gitReference'
+
+# the branch, tag or commit to build
+- name: 'git_reference'
   type: string
 
 - name: 'cache_version_id'
   type: string
   default: $(CACHE_VERSION_ID)
+  
+# the branch, tag or commit to deploy
+- name: 'gitReference'
+  type: string
+    
   
 steps:
 - checkout: self
@@ -33,12 +39,13 @@ steps:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
 
-# reference checkout makes sense only when building for a deploy
+# This is needed because the pipeline may point to a different commit than expected
+# The common case is when the previous stage pushed another commit
 - ${{ if eq(parameters.make, 'predeploy_build') }}:
   - script: |
-      git fetch && git checkout ${{ parameters.gitReference }}
+      git fetch && git checkout ${{ parameters.git_reference }}
     displayName: 'Checkout reference'  
-
+    
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
   displayName: 'Install node modules'
