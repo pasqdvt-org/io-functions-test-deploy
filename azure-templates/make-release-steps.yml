@@ -19,6 +19,13 @@ parameters:
 - name: 'cache_version_id'
   type: string
   default: $(CACHE_VERSION_ID)
+
+# This is the branch in which we will push the release tag.
+# It'll be master, but can be overridden
+# Basically, this variable is used to enforce the fact that we use the very same branch
+- name: 'release_branch'
+  type: string
+  default: master
   
 steps:
 - checkout: self
@@ -27,8 +34,8 @@ steps:
   persistCredentials: true
 
 - script: |
-    git checkout master
-  displayName: 'Checkout master'
+    git checkout ${{ parameters.release_branch }}
+  displayName: 'Checkout release branch'
       
 - task: Cache@2
   inputs:
@@ -66,8 +73,8 @@ steps:
   displayName: 'Version bump and tag'
 
 - script: |
-    git push --follow-tags origin master 
-  displayName: 'Push to master'
+    git push --follow-tags origin ${{ parameters.release_branch }} 
+  displayName: 'Push to the release branch'
 
 
 - script: |
