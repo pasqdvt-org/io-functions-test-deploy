@@ -238,6 +238,6 @@ stages:
               # The meaning is: if we did a Release, then the Build.SourceVersion doesn't reference the latest commit on master anymore
               # Hence we have to tell the task to pull from Github before building the code
               # As we do releases only from master, we can override the SourceVersion by just tell to pull from master
-              ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+              ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['DO_RELEASE'], true)) }}:
                 gitReference: 'master'
 
