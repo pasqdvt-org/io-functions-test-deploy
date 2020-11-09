@@ -19,7 +19,7 @@
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
-    "_preversion": "auto-changelog --config .auto-changelog.json --commit-limit false --unreleased --template preview.hbs",
+    "__preversion": "auto-changelog --config .auto-changelog.json --commit-limit false --unreleased --template preview.hbs",
     "version": "auto-changelog -p --config .auto-changelog.json && git add CHANGELOG.md"
   },
   "devDependencies": {
