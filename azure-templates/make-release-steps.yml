@@ -33,6 +33,7 @@ steps:
   clean: true
   persistCredentials: true
 
+# Without this step, changes would be applied to a detatched head
 - script: |
     git checkout ${{ parameters.release_branch }}
   displayName: 'Checkout release branch'
@@ -59,10 +60,6 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    echo $(Build.SourceVersion)
-  displayName: 'source version'
-
-- script: |
     npm version ${{ parameters.semver }} --git-tag-version false
     NEXT_VERSION=$(node -p "require('./package.json').version")
     VER_TAG="v$NEXT_VERSION"
@@ -75,11 +72,6 @@ steps:
 - script: |
     git push --follow-tags origin ${{ parameters.release_branch }} 
   displayName: 'Push to the release branch'
-
-
-- script: |
-    echo $(Build.SourceVersion)
-  displayName: 'source version'
 
 - script: |
     NEXT_VERSION=$(node -p "require('./package.json').version")

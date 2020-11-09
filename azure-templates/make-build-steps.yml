@@ -14,7 +14,7 @@ parameters:
   default: $(CACHE_VERSION_ID)
   
 # the branch, tag or commit to deploy
-- name: 'gitReference'
+- name: 'git_reference'
   type: string
   default: '$(Build.SourceVersion)'
     
@@ -38,14 +38,10 @@ steps:
 
 # This is needed because the pipeline may point to a different commit than expected
 # The common case is when the previous stage pushed another commit
-- ${{ if ne(parameters.gitReference, variables['Build.SourceVersion']) }}:
+- ${{ if ne(parameters.git_reference, variables['Build.SourceVersion']) }}:
   - script: |
-      git fetch && git checkout ${{ parameters.gitReference }}
+      git fetch && git checkout ${{ parameters.git_reference }}
     displayName: 'Checkout reference'  
-
-- script: |
-    git rev-parse HEAD
-  displayName: 'Commit to be built'
     
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
