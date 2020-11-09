@@ -57,8 +57,8 @@ steps:
     VER_TAG="v$NEXT_VERSION"
     REL_TAG="v$NEXT_VERSION-RELEASE"
     git commit -am "Bump version to $NEXT_VERSION [skip ci]"
-    git tag $VER_TAG
     git tag $REL_TAG
+    git tag $VER_TAG
   displayName: 'Version bump and tag'
 
 - script: |
