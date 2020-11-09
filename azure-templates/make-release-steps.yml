@@ -39,59 +39,59 @@ steps:
       path: $(YARN_CACHE_FOLDER)
     displayName: 'Cache yarn packages'
 
-- task: UseNode@1
-  inputs:
-    version: $(NODE_VERSION)
-  displayName: 'Set up Node.js'
-    
-- script: |
-    yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
-  displayName: 'Install node modules'
+  - task: UseNode@1
+    inputs:
+      version: $(NODE_VERSION)
+    displayName: 'Set up Node.js'
+      
+  - script: |
+      yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+    displayName: 'Install node modules'
 
-- script: |
-    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
-  displayName: 'Git setup'  
+  - script: |
+      git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
+    displayName: 'Git setup'  
 
-- script: |
-    echo $(Build.SourceVersion)
-  displayName: 'source version'
+  - script: |
+      echo $(Build.SourceVersion)
+    displayName: 'source version'
 
-- script: |
-    npm version ${{ parameters.semver }} --git-tag-version false
-    NEXT_VERSION=$(node -p "require('./package.json').version")
-    VER_TAG="v$NEXT_VERSION"
-    REL_TAG="v$NEXT_VERSION-RELEASE"
-    git commit -am "Bump version to $NEXT_VERSION [skip ci]"
-    git tag $REL_TAG
-    git tag $VER_TAG
-  displayName: 'Version bump and tag'
+  - script: |
+      npm version ${{ parameters.semver }} --git-tag-version false
+      NEXT_VERSION=$(node -p "require('./package.json').version")
+      VER_TAG="v$NEXT_VERSION"
+      REL_TAG="v$NEXT_VERSION-RELEASE"
+      git commit -am "Bump version to $NEXT_VERSION [skip ci]"
+      git tag $REL_TAG
+      git tag $VER_TAG
+    displayName: 'Version bump and tag'
 
-- script: |
-    git push --follow-tags origin master 
-  displayName: 'Push to master'
+  - script: |
+      git push --follow-tags origin master 
+    displayName: 'Push to master'
 
 
-- script: |
-    echo $(Build.SourceVersion)
-  displayName: 'source version'
+  - script: |
+      echo $(Build.SourceVersion)
+    displayName: 'source version'
 
-- script: |
-    NEXT_VERSION=$(node -p "require('./package.json').version")
-    HEAD_SHA=$(git rev-parse HEAD)
-    TITLE="Release $NEXT_VERSION"
-    TAG="v$NEXT_VERSION-RELEASE"
-    echo "##vso[task.setvariable variable=title]$TITLE"
-    echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
-    echo "##vso[task.setvariable variable=tag]$TAG"
-  displayName: 'Set release variables'
+  - script: |
+      NEXT_VERSION=$(node -p "require('./package.json').version")
+      HEAD_SHA=$(git rev-parse HEAD)
+      TITLE="Release $NEXT_VERSION"
+      TAG="v$NEXT_VERSION-RELEASE"
+      echo "##vso[task.setvariable variable=title]$TITLE"
+      echo "##vso[task.setvariable variable=sha]$HEAD_SHA"
+      echo "##vso[task.setvariable variable=tag]$TAG"
+    displayName: 'Set release variables'
 
-- task: GitHubRelease@0
-  inputs:
-    gitHubConnection: ${{ parameters.gitHubConnection }}
-    repositoryName: $(Build.Repository.Name)
-    action: create
-    target: $(sha)
-    tagSource: manual
-    tag: $(tag)
-    title: $(title)
-    addChangelog: true
+  - task: GitHubRelease@0
+    inputs:
+      gitHubConnection: ${{ parameters.gitHubConnection }}
+      repositoryName: $(Build.Repository.Name)
+      action: create
+      target: $(sha)
+      tagSource: manual
+      tag: $(tag)
+      title: $(title)
+      addChangelog: true
