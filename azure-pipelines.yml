@@ -130,7 +130,7 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: install_dependencies
-            gitReference: "unused value"
+            gitReference: $(Build.SourceVersion)
 
         - script: |
             yarn test:coverage
