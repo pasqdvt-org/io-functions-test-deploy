@@ -167,12 +167,13 @@ stages:
     jobs:
       - job: make_release      
         steps:
-        - template: azure-templates/make-release-steps.yml
-          parameters:
-            semver: '${{ parameters.RELEASE_SEMVER }}'
-            gitEmail: $(GIT_EMAIL)
-            gitUsername: $(GIT_USERNAME)
-            gitHubConnection: $(GITHUB_CONNECTION)
+        - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:    
+          - template: azure-templates/make-release-steps.yml
+            parameters:
+              semver: '${{ parameters.RELEASE_SEMVER }}'
+              gitEmail: $(GIT_EMAIL)
+              gitUsername: $(GIT_USERNAME)
+              gitHubConnection: $(GITHUB_CONNECTION)
 
   # D) Deploy to TEST environment if the following conditions apply:
   #    - continuos deployment (automatic):
