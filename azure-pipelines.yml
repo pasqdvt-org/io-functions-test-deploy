@@ -197,6 +197,8 @@ stages:
               azureSubscription: '$(TEST_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(TEST_RESOURCE_GROUP_NAME)'
               appName: '$(TEST_APP_NAME)'
+              containerInstanceResourceGroup: "io-d-rg-tdeploy"
+              containerInstanceVNet: "io-d-vnet-tdeploy"
               # The following condition is the same that triggers the Relase stage
               # The meaning is: if we did a Release, then the Build.SourceVersion doesn't reference the latest commit on master anymore
               # Hence we have to tell the task to pull from Github before building the code
@@ -234,6 +236,8 @@ stages:
               azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
               resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
               appName: '$(PRODUCTION_APP_NAME)'
+              containerInstanceResourceGroup: "io-d-rg-tdeploy"
+              containerInstanceVNet: "io-d-vnet-tdeploy"
               # The following condition is the same that triggers the Relase stage
               # The meaning is: if we did a Release, then the Build.SourceVersion doesn't reference the latest commit on master anymore
               # Hence we have to tell the task to pull from Github before building the code

@@ -19,3 +19,5 @@ stages:
             azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
             resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
             appName: '$(PRODUCTION_APP_NAME)'
+            containerInstanceResourceGroup: "io-d-rg-tdeploy"
+            containerInstanceVNet: "io-d-vnet-tdeploy"
