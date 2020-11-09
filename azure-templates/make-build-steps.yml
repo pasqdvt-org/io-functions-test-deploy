@@ -9,7 +9,7 @@ parameters:
   - build
   - predeploy_build
   
-- name: 'reference'
+- name: 'gitReference'
   type: string
 
 - name: 'cache_version_id'
@@ -36,7 +36,7 @@ steps:
 # reference checkout makes sense only when building for a deploy
 - ${{ if eq(parameters.make, 'predeploy_build') }}:
   - script: |
-      git fetch && git checkout ${{ parameters.reference }}
+      git fetch && git checkout ${{ parameters.gitReference }}
     displayName: 'Checkout reference'  
 
 - script: |

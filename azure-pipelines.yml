@@ -75,6 +75,7 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: build
+            gitReference: "unused value"
 
             
       # A2) Analyze source code to find errors with lint
