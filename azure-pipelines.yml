@@ -205,7 +205,7 @@ stages:
               # Hence we have to tell the task to pull from Github before building the code
               # As we do releases only from master, we can override the SourceVersion by just tell to pull from master
               ${{ if and(eq(variables['DO_RELEASE'], true),and(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.Reason'], 'Manual'))) }}
-                gitReference:  master
+                gitReference: 'master'
 
 
   # E) Deploy to PRODUCTION environment if one of the following conditions apply:
@@ -242,5 +242,5 @@ stages:
               # Hence we have to tell the task to pull from Github before building the code
               # As we do releases only from master, we can override the SourceVersion by just tell to pull from master
               ${{ if and(eq(variables['DO_RELEASE'], true),and(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.Reason'], 'Manual'))) }}
-                gitReference:  master
+                gitReference: 'master'
 
