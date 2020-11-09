@@ -166,13 +166,12 @@ stages:
       vmImage: 'ubuntu-latest'
     jobs:
       - job: make_release      
+        steps:
         ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/master') }}:
-          steps:
           - script:
               echo "Skipping release cause it ain't master"
             displayName: 'Skipping reason'
         ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
-          steps:
           - template: azure-templates/make-release-steps.yml
             parameters:
               semver: '${{ parameters.RELEASE_SEMVER }}'
