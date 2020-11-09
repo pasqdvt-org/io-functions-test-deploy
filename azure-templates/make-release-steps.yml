@@ -71,7 +71,7 @@ steps:
 
 
 - script: |
-    echo ${{ Build.SourceVersion }}
+    echo $(Build.SourceVersion)
   displayName: 'source version'
 
 - script: |
