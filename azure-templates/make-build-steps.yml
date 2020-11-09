@@ -16,6 +16,7 @@ parameters:
 # the branch, tag or commit to deploy
 - name: 'gitReference'
   type: string
+  default: $(Build.SourceVersion)
     
   
 steps:
@@ -35,13 +36,9 @@ steps:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
 
-- script: |
-    echo $(Build.SourceVersion)
-  displayName: 'source version'
-
 # This is needed because the pipeline may point to a different commit than expected
 # The common case is when the previous stage pushed another commit
-- ${{ if eq(parameters.make, 'predeploy_build') }}:
+- ${{ if ne(parameters.gitReference, Build.SourceVersion) }}:
   - script: |
       git fetch && git checkout ${{ parameters.gitReference }}
     displayName: 'Checkout reference'  
