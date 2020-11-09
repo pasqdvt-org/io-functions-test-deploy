@@ -20,7 +20,7 @@
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
     "changelsog": "auto-changelog --config .auto-changelog.json --package --commit-limit false --unreleased --stdout --template preview.hbs",
-    "version": "auto-changelog -p --config .auto-changelog.json --commit-limit false --unreleased && git add CHANGELOG.md"
+    "version": "auto-changelog -p --config .auto-changelog.json --commit-limit false --unreleased --template preview.hbs && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
