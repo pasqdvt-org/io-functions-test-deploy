@@ -32,9 +32,13 @@ steps:
   inputs:
     version: $(NODE_VERSION)
   displayName: 'Set up Node.js'
-- script: |
-    git fetch && git checkout ${{ parameters.reference }}
-  displayName: 'Checkout reference'  
+
+# reference checkout makes sense only when building for a deploy
+- ${{ if eq(parameters.make, 'predeploy_build') }}:
+  - script: |
+      git fetch && git checkout ${{ parameters.reference }}
+    displayName: 'Checkout reference'  
+
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
   displayName: 'Install node modules'
