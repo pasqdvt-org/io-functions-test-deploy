@@ -44,7 +44,7 @@ steps:
     displayName: 'Checkout reference'  
 
 - script: |
-    echo $(git rev-parse HEAD)
+    git rev-parse HEAD
   displayName: 'Commit to be built'
     
 - script: |
