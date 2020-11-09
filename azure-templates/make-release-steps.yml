@@ -52,7 +52,7 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    echo ${{ Build.SourceVersion }}
+    echo $(Build.SourceVersion)
   displayName: 'source version'
 
 - script: |

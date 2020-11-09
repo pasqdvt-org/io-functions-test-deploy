@@ -36,7 +36,7 @@ steps:
   displayName: 'Set up Node.js'
 
 - script: |
-    echo ${{ Build.SourceVersion }}
+    echo $(Build.SourceVersion)
   displayName: 'source version'
 
 # This is needed because the pipeline may point to a different commit than expected
