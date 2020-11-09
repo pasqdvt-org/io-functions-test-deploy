@@ -52,15 +52,12 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]" 
-  displayName: 'Version bump and tag'
-
-- script: |
+    npm version ${{ parameters.semver }} --git-tag-version false
     NEXT_VERSION=$(node -p "require('./package.json').version")
     REL_TAG="v$NEXT_VERSION-RELEASE"
+    git commit -am "Bump version to $NEXT_VERSION [skip ci]"
     git tag $REL_TAG
-    echo $REL_TAG
-  displayName: 'Add custom RELEASE tag'
+  displayName: 'Version bump and tag'
 
 - script: |
     git push --follow-tags origin master 
