@@ -86,6 +86,7 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: install_dependencies
+            gitReference: "unused value"
 
         - script: |
             yarn lint
@@ -116,6 +117,7 @@ stages:
           - template: azure-templates/make-build-steps.yml
             parameters:
               make: install_dependencies
+              gitReference: "unused value"
 
           - bash: |
               yarn danger ci
@@ -135,6 +137,7 @@ stages:
         - template: azure-templates/make-build-steps.yml
           parameters:
             make: install_dependencies
+            gitReference: "unused value"
 
         - script: |
             yarn test:coverage
