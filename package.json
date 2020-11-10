@@ -19,7 +19,6 @@
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
-    "_preversion": "auto-changelog --config .auto-changelog.json --commit-limit false --unreleased --template preview.hbs",
     "version": "auto-changelog -p --config .auto-changelog.json && git add CHANGELOG.md"
   },
   "devDependencies": {
@@ -39,7 +38,6 @@
     "npm-run-all": "^4.1.5",
     "oval": "^1.0.0",
     "prettier": "^1.18.2",
-    "release-it": "12.5.0",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
