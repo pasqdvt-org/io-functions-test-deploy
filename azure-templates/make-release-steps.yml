@@ -58,15 +58,11 @@ steps:
 - script: |
     git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
   displayName: 'Git setup'  
-
+  
 - script: |
-    npm version ${{ parameters.semver }} --git-tag-version=false
-    NEXT_VERSION=$(node -p "require('./package.json').version")
-    VER_TAG="v$NEXT_VERSION"
-    REL_TAG="v$NEXT_VERSION-RELEASE"
-    git commit -am "Bump version to $NEXT_VERSION [skip ci]"
-    git tag $REL_TAG
-    git tag $VER_TAG
+    NEXT_VERSION=$(npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]")
+    RELEASE_TAG="v$NEXT_VERSION-RELEASE"
+    git tag $RELEASE_TAG
   displayName: 'Version bump and tag'
 
 - script: |
