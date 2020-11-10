@@ -19,7 +19,7 @@
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
-    "version": "auto-changelog -p --config .auto-changelog.json && git add CHANGELOG.md"
+    "version": "auto-changelog -p --config .auto-changelog.json --tag-pattern v\d+-RELEASE"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
