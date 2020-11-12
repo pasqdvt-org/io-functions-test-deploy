@@ -186,7 +186,8 @@ stages:
     # When DO_RELEASE is false, this stage is not included in the pipeline
     # When SourceBranch is not master, we assume this reference to be a valid release.
     #  Therefore, there is no need to bundle a new release.
-    - ${{ if and( eq(variables['DO_RELEASE'], true), eq(variables['Build.SourceBranch'], 'refs/heads/master') ) }}:    
+    #- ${{ if and( eq(variables['DO_RELEASE'], true), eq(variables['Build.SourceBranch'], 'refs/heads/master') ) }}:    
+    - ${{ if eq(variables['DO_RELEASE'], true)  }}:    
       - stage: Release
         dependsOn:
           - Build
