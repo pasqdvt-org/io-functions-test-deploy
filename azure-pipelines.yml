@@ -209,7 +209,7 @@ stages:
     #       - there is a push on 'master' branch 
     #    - manual deployment:
     #       - $DO_DEPLOY == true and TEST_ENABLE_DEPLOY == true
-    - ${{ if and( eq(parameters.DO_DEPLOY, true), eq(parameters.TEST_ENABLE_DEPLOY, true) ) }}:
+    - ${{ if and( eq(variables['DO_DEPLOY'], true), eq(parameters.TEST_ENABLE_DEPLOY, true) ) }}:
       - stage: Deploy_test   
         dependsOn:
           - Build
@@ -239,7 +239,7 @@ stages:
     #       - the 'latest' tag is pushed 
     #    - manual deployment:
     #       - $DO_DEPLOY == true and PRODUCTION_ENABLE_DEPLOY == true
-    - ${{ if and( eq(parameters.DO_DEPLOY, true), eq(parameters.PRODUCTION_ENABLE_DEPLOY, true) ) }}:
+    - ${{ if and( eq(variables['DO_DEPLOY'], true), eq(parameters.PRODUCTION_ENABLE_DEPLOY, true) ) }}:
       - stage: Deploy_production
         dependsOn:
           - Build
