@@ -181,12 +181,7 @@ stages:
   # - is a manual trigger
   # - is on branch master or is a tag in the form v{version}-RELEASE
   #- ${{ if and( eq(variables['Build.Reason'], 'Manual'), or( eq(variables['Build.SourceBranch'], 'refs/heads/master'), and( startsWith(variables['Build.SourceBranch'], 'refs/tags'), endsWith(variables['Build.SourceBranch'], '-RELEASE') ) ) )  }}:
-  - ${{ if ne(variables['Build.Reason'], 'dsdsd') }}:
-    # C) Create a relase
-    # When DO_RELEASE is false, this stage is not included in the pipeline
-    # When SourceBranch is not master, we assume this reference to be a valid release.
-    #  Therefore, there is no need to bundle a new release.
-    #- ${{ if and( eq(variables['DO_RELEASE'], true), eq(variables['Build.SourceBranch'], 'refs/heads/master') ) }}:    
+  - ${{ if ne(variables['Build.Reason'], 'dsdsd') }}:  
     - ${{ if eq(variables['DO_RELEASE'], true)  }}:    
       - stage: Release
         dependsOn:
