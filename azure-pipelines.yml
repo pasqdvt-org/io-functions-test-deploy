@@ -180,8 +180,8 @@ stages:
   # The following stages are included in the pipeline when all these are met:
   # - is a manual trigger
   # - is on branch master or is a tag in the form v{version}-RELEASE
-  - ${{ if and( or( eq(variables['Build.SourceBranch'], 'refs/heads/master'), and( startsWith(variables['Build.SourceBranch'], 'refs/tags'), endsWith(variables['Build.SourceBranch'], '-RELEASE') ) ), eq(variables['Build.Reason'], 'Manual') )  }}:
-    
+  #- ${{ if and( eq(variables['Build.Reason'], 'Manual'), or( eq(variables['Build.SourceBranch'], 'refs/heads/master'), and( startsWith(variables['Build.SourceBranch'], 'refs/tags'), endsWith(variables['Build.SourceBranch'], '-RELEASE') ) ) )  }}:
+  - ${{ if eq(variables['Build.Reason'], 'Manual') }}:
     # C) Create a relase
     # When DO_RELEASE is false, this stage is not included in the pipeline
     # When SourceBranch is not master, we assume this reference to be a valid release.
