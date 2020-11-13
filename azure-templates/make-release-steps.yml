@@ -56,8 +56,12 @@ steps:
   displayName: 'Install node modules'
 
 - script: |
-    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
-  displayName: 'Git setup'  
+    git config --get user.name 
+  displayName: 'Current git user' 
+
+#- script: |
+#    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
+#  displayName: 'Git setup'  
   
 - script: |
     npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]"
