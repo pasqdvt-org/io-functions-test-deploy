@@ -39,9 +39,9 @@ steps:
   displayName: 'Checkout release branch'
 
 - script: |
-    git config --get user.name 
+    git config --global --get user.name 
   displayName: 'Current git user'
-      
+
 - task: Cache@2
   inputs:
     key: 'yarn-${{ parameters.cache_version_id }} | "$(Agent.OS)" | yarn.lock'
