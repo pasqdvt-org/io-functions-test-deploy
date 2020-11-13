@@ -37,6 +37,10 @@ steps:
 - script: |
     git checkout ${{ parameters.release_branch }}
   displayName: 'Checkout release branch'
+
+- script: |
+    git config --get user.name 
+  displayName: 'Current git user'
       
 - task: Cache@2
   inputs:
@@ -55,9 +59,7 @@ steps:
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
   displayName: 'Install node modules'
 
-- script: |
-    git config --get user.name 
-  displayName: 'Current git user' 
+ 
 
 #- script: |
 #    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}"
