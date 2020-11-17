@@ -42,6 +42,11 @@ parameters:
   - name: 'containerInstanceSubnet'
     type: string
     default: 'azure-devops'
+
+  # container instance subnet
+  - name: 'headers'
+    type: string
+    default: ''
     
 steps:
   - task: AzureCLI@2
@@ -77,13 +82,13 @@ steps:
         OUTPUT_CREATE=$(az container create \
                          --resource-group '${{ parameters.containerInstanceResourceGroup }}' \
                          --name ${CONTAINER_INSTANCE_NAME} \
-                         --image microsoft/azure-cli:latest \
+                         --image alpine:latest \
                          --cpu '${{ parameters.containerInstanceCpu }}' \
                          --memory '${{ parameters.containerInstanceMemory }}' \
                          --restart-policy Never \
                          --vnet '${{ parameters.containerInstanceVNet }}' \
                          --subnet '${{ parameters.containerInstanceSubnet }}' \
-                         --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
+                         --command-line "wget --quiet --header "${{ parameters.headers }}" -O - 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
                          --output tsv \
                          --query containers[].instanceView.currentState.exitCode)
         
