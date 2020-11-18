@@ -88,7 +88,7 @@ steps:
                          --restart-policy Never \
                          --vnet '${{ parameters.containerInstanceVNet }}' \
                          --subnet '${{ parameters.containerInstanceSubnet }}' \
-                         --command-line "wget --quiet --header "${{ parameters.headers }}" -O - 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
+                         --command-line "wget --quiet --header "${{ parameters.headers }}" -O /dev/stdout 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
                          --output tsv \
                          --query containers[].instanceView.currentState.exitCode)
         
