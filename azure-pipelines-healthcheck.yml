@@ -14,10 +14,11 @@ stages:
       # A1) 
       - job: healthcheck      
         steps:
-        - template: azure-templates/test-healthcheck.yml
+        - template: azure-templates/healthcheck.yml
           parameters:
             azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
-            resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
             appName: '$(PRODUCTION_APP_NAME)'
+            endpoint: 'https://$(PRODUCTION_APP_NAME)-staging.azurewebsites.net/healthcheck/ok'
             containerInstanceResourceGroup: "io-d-rg-tdeploy"
             containerInstanceVNet: "io-d-vnet-tdeploy"
+            containerInstanceSubnet: "azure-devops"
