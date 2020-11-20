@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "info",
+      "route": "healthcheck/ko",
       "methods": [
         "get"
       ]
