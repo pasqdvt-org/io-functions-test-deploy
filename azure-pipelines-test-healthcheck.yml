@@ -19,6 +19,7 @@ stages:
             azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
             appName: '$(PRODUCTION_APP_NAME)'
             endpoint: 'https://$(PRODUCTION_APP_NAME)-staging.azurewebsites.net/healthcheck/ok'
-            containerInstanceResourceGroup: "io-d-rg-tdeploy"
-            containerInstanceVNet: "io-d-vnet-tdeploy"
-            containerInstanceSubnet: "azure-devops"
+            endpointType: 'private'
+            containerInstanceResourceGroup: 'io-d-rg-tdeploy'
+            containerInstanceVNet: 'io-d-vnet-tdeploy'
+            containerInstanceSubnet: 'azure-devops'
