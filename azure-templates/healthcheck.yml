@@ -13,6 +13,13 @@ parameters:
   - name: 'endpoint'
     type: string
 
+  # select if endpoint is public or private
+  - name: 'endpointType'
+    type: string
+    values:
+    - public
+    - private
+
   # min container instance cpu
   - name: 'containerInstanceCpu'
     type: string
@@ -43,8 +50,18 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       failOnStandardError: false
-      inlineScript: |     
-        # define a temporary container instance name     
+      inlineScript: |
+        if [ '${{ parameters.endpointType }}' = "public"]; then
+          echo public
+          echo '${{ parameters.endpointType }}'
+        fi
+
+        if [ '${{ parameters.endpointType }}' = "private"]; then
+          echo private
+          echo '${{ parameters.endpointType }}'
+        fi
+
+        # define a temporary container instance name
         CONTAINER_INSTANCE_NAME="${{ parameters.appName }}-deploy"
         
         # check if vnet exists in target resource group (containerInstanceResourceGroup)
