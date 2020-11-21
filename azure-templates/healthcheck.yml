@@ -59,6 +59,7 @@ steps:
         if [ '${{ parameters.endpointType }}' = "public" ]; then
           echo public
           az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}'
+          exit $?
         fi
 
         if [ '${{ parameters.endpointType }}' = "private" ]; then
