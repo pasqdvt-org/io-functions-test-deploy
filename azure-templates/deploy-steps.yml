@@ -135,7 +135,7 @@ steps:
         slotName: 'staging'
       displayName: Deploy to staging slot
 
-    - template: azure-templates/healthcheck.yml
+    - template: healthcheck.yml
       parameters:
         azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
         appName: '$(PRODUCTION_APP_NAME)'
