@@ -51,12 +51,12 @@ steps:
       scriptLocation: 'inlineScript'
       failOnStandardError: false
       inlineScript: |
-        if [ '${{ parameters.endpointType }}' = "public"]; then
+        if [ '${{ parameters.endpointType }}' = "public" ]; then
           echo public
           echo '${{ parameters.endpointType }}'
         fi
 
-        if [ '${{ parameters.endpointType }}' = "private"]; then
+        if [ '${{ parameters.endpointType }}' = "private" ]; then
           echo private
           echo '${{ parameters.endpointType }}'
         fi
