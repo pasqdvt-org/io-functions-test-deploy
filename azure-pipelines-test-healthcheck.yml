@@ -5,16 +5,7 @@ pr: none
 pool:
   vmImage: 'windows-2019'
 
-resources:
-  repositories:
-    - repository: pagopaCommons
-      type: github
-      name: pagopa/azure-pipeline-templates
-      ref: refs/175919444-add-public-request
-      endpoint: 'pagopa'
-
 stages:
-
   # A) pack healthcheck
   - stage: healthcheck
     dependsOn: []
@@ -22,7 +13,7 @@ stages:
       # A1) 
       - job: healthcheck      
         steps:
-        - template: templates/rest-healthcheck/template.yaml@pagopaCommons
+        - template: azure-templates/healthcheck.yaml
           parameters:
             azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
             appName: '$(PRODUCTION_APP_NAME)'
