@@ -20,7 +20,7 @@ stages:
             #endpoint: 'https://$(PRODUCTION_APP_NAME)-staging.azurewebsites.net/healthcheck/ok'
             endpoint: 'https://httpbin.org/anything'
             endpointType: 'public'
-            headers: 'KEY1=VALUE1 KEY2=VALUE2'
+            headers: 'KEY1=$(SECRET1) KEY2=$(SECRET2)'
             containerInstanceResourceGroup: 'io-d-rg-tdeploy'
             containerInstanceVNet: 'io-d-vnet-tdeploy'
             containerInstanceSubnet: 'azure-devops'
