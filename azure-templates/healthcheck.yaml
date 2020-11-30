@@ -16,7 +16,7 @@ parameters:
   # custom headers
   - name: 'headers'
     type: string
-    default: ''
+    default: 'no-headers'
 
   # select if endpoint is public or private
   - name: 'endpointType'
@@ -56,9 +56,15 @@ steps:
       scriptLocation: 'inlineScript'
       failOnStandardError: false
       inlineScript: |
+        if [ '${{ parameters.headers }}' = "no-headers" ]; then
+          HEADERS=""
+        else
+          HEADERS="--headers ${{ parameters.headers }}"
+        fi
+
         if [ '${{ parameters.endpointType }}' = "public" ]; then
           echo public
-          az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' --headers ${{ parameters.headers }}
+          az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' ${HEADERS}
           exit $?
         fi
 
@@ -95,7 +101,7 @@ steps:
                           --restart-policy Never \
                           --vnet '${{ parameters.containerInstanceVNet }}' \
                           --subnet '${{ parameters.containerInstanceSubnet }}' \
-                          --command-line "az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' --headers ${{ parameters.headers }}" \
+                          --command-line "az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' ${HEADERS}" \
                           --output tsv \
                           --query containers[].instanceView.currentState.exitCode)
           
