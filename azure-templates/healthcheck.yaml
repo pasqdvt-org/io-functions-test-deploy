@@ -8,6 +8,9 @@ parameters:
 
   - name: 'appName'
     type: string
+  
+  - name: 'appNamefake'
+    type: string
 
   # full endpoint healthcheck against
   - name: 'endpoint'
@@ -64,8 +67,16 @@ steps:
 
         echo "endpointType: ${{ parameters.endpointType }}"
         if [ '${{ parameters.endpointType }}' = "public" ]; then
-          az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' ${HEADERS}
-          exit $?
+          OUTPUT_REST=$(az rest --skip-authorization-header --method get --url '${{ parameters.endpoint }}' ${HEADERS})
+          echo ${OUTPUT_REST}
+          # check if rest response contains app-name
+          if [[ ${OUTPUT_REST} == *${{ parameters.appNamefake }}* ]]; then
+            echo "appName: '${{ parameters.appNamefake }}' found, continue"
+            exit 0
+          else
+            echo "appName: '${{ parameters.appNamefake }}' not found, fail"
+            exit 1
+          fi
         fi
 
         if [ '${{ parameters.endpointType }}' = "private" ]; then
@@ -105,9 +116,16 @@ steps:
                           --query containers[].instanceView.currentState.exitCode)
           
           # print container instance logs
-          az container logs --resource-group '${{ parameters.containerInstanceResourceGroup }}' --name ${CONTAINER_INSTANCE_NAME}
+          OUTPUT_REST=$(az container logs --resource-group '${{ parameters.containerInstanceResourceGroup }}' --name ${CONTAINER_INSTANCE_NAME})
           # delete container instance
           OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.containerInstanceResourceGroup }} --name ${CONTAINER_INSTANCE_NAME} --yes)
-          # reuse OUTPUT_CREATE as task exit code to interrupt pipeline if result is not 0.
-          exit $OUTPUT_CREATE
+          echo ${OUTPUT_REST}
+          # check if rest response contains app-name
+          if [[ ${OUTPUT_REST} == *${{ parameters.appNamefake }}* ]]; then
+            echo "appName: '${{ parameters.appNamefake }}' found, continue"
+            exit 0
+          else
+            echo "appName: '${{ parameters.appNamefake }}' not found, fail"
+            exit 1
+          fi
         fi
