@@ -21,7 +21,7 @@ stages:
             endpoint: 'https://$(PRODUCTION_APP_NAME)-staging.azurewebsites.net/healthcheck/ko'
             #endpoint: 'https://httpbin.org/anything'
             #headers: 'H1=pippo H2=pluto'
-            endpointType: 'public'
+            endpointType: 'private'
             containerInstanceResourceGroup: 'io-d-rg-tdeploy'
             containerInstanceVNet: 'io-d-vnet-tdeploy'
             containerInstanceSubnet: 'azure-devops'
