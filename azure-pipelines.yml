@@ -147,6 +147,10 @@ stages:
           steps:
             - download: current
               artifact: Bundle
+            
+            - script: |
+              ls 
+              displayName: 'ls'
               
             - task: AzureFunctionApp@1  
               inputs:
