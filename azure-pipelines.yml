@@ -172,10 +172,10 @@ stages:
               parameters:
                 azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
                 appName: '${{ app.Value.appname }}'
-                endpoint: 'https://${{ app.Value.appname }}-staging.azurewebsites.net/api/v1/info'
+                endpoint: 'https://${{ app.Value.appname }}-staging.azurewebsites.net/info'
                 endpointType: 'private'
-                containerInstanceResourceGroup: 'io-p-rg-common'
-                containerInstanceVNet: 'io-p-vnet-common'
+                containerInstanceResourceGroup: 'io-d-rg-tdeploy'
+                containerInstanceVNet: 'io-d-vnet-tdeploy'
                 containerInstanceSubnet: 'azure-devops' 
 
   # Promote the staging instance to production
