@@ -141,7 +141,7 @@ stages:
               ls $(System.DefaultWorkingDirectory)
             displayName: 'ls 2'
           
-          - publish: $(Build.ArtifactStagingDirectory)
+          - publish: $(Build.ArtifactStagingDirectory)/*
             artifact: Bundle
 
   # Deploy on staging slot
