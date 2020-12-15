@@ -133,6 +133,13 @@ stages:
                 !CODEOWNERS
                 !__*/**/*
             displayName: 'Copy deploy files'
+
+          - script: |
+              ls $(Build.ArtifactStagingDirectory)
+            displayName: 'ls 1'
+          - script: |
+              ls $(System.DefaultWorkingDirectory)
+            displayName: 'ls 2'
           
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: Bundle
