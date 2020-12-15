@@ -149,7 +149,7 @@ stages:
               artifact: Bundle
             
             - script: |
-              ls 
+                ls 
               displayName: 'ls'
               
             - task: AzureFunctionApp@1  
