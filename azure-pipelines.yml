@@ -146,7 +146,7 @@ stages:
             artifact: Bundle
 
   # Deploy on staging slot
-  - ${{ each app in $(PRODUCTION_APPS2) }}:
+  - ${{ each app in PRODUCTION_APPS2 }}:
     - stage: Deploy_staging_${{ app.Key }}
       dependsOn:
         - Prepare_artifact
