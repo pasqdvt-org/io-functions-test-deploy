@@ -1,0 +1,7 @@
+fns3_app1:
+  appname: io-d-fn3-tdeploy
+  rg: io-d-rg-tdeploy
+fns3_app2:
+  appname: io-d-fn3-tdeploy2
+  rg: io-d-rg-tdeploy
+
