@@ -145,11 +145,11 @@ stages:
             artifact: Bundle
 
   # Deploy on staging slot
-  - stage: Deploy_staging
-    dependsOn:
-      - Prepare_artifact
-    jobs:
-      - ${{ each app in parameters.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
+    - stage: Deploy_staging_${{ app.Key }}
+      dependsOn:
+        - Prepare_artifact
+      jobs:
         - job: 'do_deploy_${{ app.Key }}'
           steps:
             - checkout: none
@@ -173,11 +173,11 @@ stages:
               displayName: Deploy to ${{ app.Key }} staging slot 
 
   # Check that the staging instance is healthy
-  - stage: Healthcheck
-    dependsOn:
-      - Deploy_staging
-    jobs:
-      - ${{ each app in parameters.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
+    - stage: Healthcheck_${{ app.Key }}
+      dependsOn:
+        - Deploy_staging_${{ app.Key }}
+      jobs:
         - job: 'do_healthcheck_${{ app.Key }}'       
           steps:  
             - checkout: none
@@ -192,12 +192,13 @@ stages:
                 containerInstanceSubnet: 'azure-devops' 
 
   # Promote the staging instance to production
-  - stage: Swap_to_production
-    dependsOn:
-      - Healthcheck
-      - Deploy_staging
-    jobs:
-      - ${{ each app in parameters.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
+    - stage: Swap_to_production_${{ app.Key }}
+      dependsOn:
+        - ${{ each app2 in parameters.PRODUCTION_APPS }}:
+          - Healthcheck_${{ app2.Key }} # every healthcheck is good
+          - Deploy_staging_${{ app.Key }}
+      jobs:
         - job: 'do_deploy_${{ app.Key }}'       
           steps:  
             - checkout: none
