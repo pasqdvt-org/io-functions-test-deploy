@@ -1,16 +1,19 @@
 # Azure DevOps pipeline to release a new version and deploy to production.
 
 variables:
-  - name: 'NODE_VERSION'
-    value: 10.14.1'
-  - name: 'YARN_CACHE_FOLDER'
-    value: '$(Pipeline.Workspace)/.yarn'
+  NODE_VERSION: '10.14.1'
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
   - name: 'PRODUCTION_APPS'
     readonly: true
+    type: object
     value:
-      - fns3_app1: 1
-      - fns3_app2: 2
-      
+      fns3_app1:
+        appname: io-d-fn3-tdeploy
+        rg: io-d-rg-tdeploy
+      fns3_app2:
+        appname: io-d-fn3-tdeploy2
+        rg: io-d-rg-tdeploy
+
 parameters:
   - name: 'RELEASE_SEMVER'
     displayName: 'When packing a release, define the version bump to apply'
@@ -20,6 +23,16 @@ parameters:
       - minor
       - patch
     default: minor
+  - name: 'PRODUCTION_APPS'
+    displayName: ''
+    type: object
+    default:
+      fns3_app1:
+        appname: io-d-fn3-tdeploy
+        rg: io-d-rg-tdeploy
+      fns3_app2:
+        appname: io-d-fn3-tdeploy2
+        rg: io-d-rg-tdeploy
 
 # Only manual activations are intended
 trigger: none
@@ -142,7 +155,7 @@ stages:
             artifact: Bundle
 
   # Deploy on staging slot
-  - ${{ each app in variables.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
     - stage: Deploy_staging_${{ app.Key }}
       dependsOn:
         - Prepare_artifact
@@ -170,7 +183,7 @@ stages:
               displayName: Deploy to ${{ app.Key }} staging slot 
 
   # Check that the staging instance is healthy
-  - ${{ each app in variables.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
     - stage: Healthcheck_${{ app.Key }}
       dependsOn:
         - Deploy_staging_${{ app.Key }}
@@ -189,10 +202,10 @@ stages:
                 containerInstanceSubnet: 'azure-devops' 
 
   # Promote the staging instance to production
-  - ${{ each app in variables.PRODUCTION_APPS }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
     - stage: Swap_to_production_${{ app.Key }}
       dependsOn:
-        - ${{ each app2 in variables.PRODUCTION_APPS }}:
+        - ${{ each app2 in parameters.PRODUCTION_APPS }}:
           - Healthcheck_${{ app2.Key }} # every healthcheck is good
           - Deploy_staging_${{ app.Key }}
       jobs:
