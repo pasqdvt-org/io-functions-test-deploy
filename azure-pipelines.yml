@@ -7,7 +7,6 @@ variables:
     value: '$(Pipeline.Workspace)/.yarn'
   - name: 'PRODUCTION_APPS'
     readonly: true
-    type: object
     value:
       fns3_app1:
         appname: io-d-fn3-tdeploy
