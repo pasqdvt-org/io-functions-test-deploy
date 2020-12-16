@@ -1,8 +1,10 @@
 # Azure DevOps pipeline to release a new version and deploy to production.
 
 variables:
-  NODE_VERSION: '10.14.1'
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  - name: 'NODE_VERSION'
+    value: 10.14.1'
+  - name: 'YARN_CACHE_FOLDER'
+    value: '$(Pipeline.Workspace)/.yarn'
   - name: 'PRODUCTION_APPS'
     readonly: true
     type: object
