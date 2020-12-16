@@ -3,7 +3,6 @@
 variables:
   NODE_VERSION: '10.14.1'
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-  PRODUCTION_APPS2: .devops/PRODUCTION_APPS.yaml
 
 parameters:
   - name: 'RELEASE_SEMVER'
@@ -146,7 +145,7 @@ stages:
             artifact: Bundle
 
   # Deploy on staging slot
-  - ${{ each app in PRODUCTION_APPS2 }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
     - stage: Deploy_staging_${{ app.Key }}
       dependsOn:
         - Prepare_artifact
@@ -174,7 +173,7 @@ stages:
               displayName: Deploy to ${{ app.Key }} staging slot 
 
   # Check that the staging instance is healthy
-  - ${{ each app in PRODUCTION_APPS2 }}:
+  - ${{ each app in parameters.PRODUCTION_APPS }}:
     - stage: Healthcheck_${{ app.Key }}
       dependsOn:
         - Deploy_staging_${{ app.Key }}
