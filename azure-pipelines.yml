@@ -157,7 +157,7 @@ stages:
               artifact: Bundle
             
             - script: |
-                ls 
+                ls $(Pipeline.Workspace)/Bundle
               displayName: 'ls'
               
             - task: AzureFunctionApp@1  
@@ -166,7 +166,7 @@ stages:
                 resourceGroupName: '${{ app.Value.rg }}'
                 appType: 'functionApp'
                 appName: '${{ app.Value.appname }}'
-                package: '$(System.DefaultWorkingDirectory)/'
+                package: '$(Pipeline.Workspace)/Bundle'
                 deploymentMethod: 'auto'
                 deployToSlotOrASE: true
                 slotName: 'staging'
