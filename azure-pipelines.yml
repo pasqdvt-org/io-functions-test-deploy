@@ -112,7 +112,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(System.DefaultWorkingDirectory)'
-              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+              TargetFolder: '$(System.DefaultWorkingDirectory)/bundle'
               Contents: |
                 **/*
                 !.git/**/*
@@ -135,13 +135,13 @@ stages:
             displayName: 'Copy deploy files'
 
           - script: |
-              ls $(Build.ArtifactStagingDirectory)
-            displayName: 'ls 1'
+              ls $(System.DefaultWorkingDirectory)/bundle
+            displayName: 'ls System.DefaultWorkingDirectory/bundle'
           - script: |
               ls $(System.DefaultWorkingDirectory)
-            displayName: 'ls 2'
+            displayName: 'ls System.DefaultWorkingDirectory<'
           
-          - publish: $(Build.ArtifactStagingDirectory)/*
+          - publish: $(System.DefaultWorkingDirectory)/bundle
             artifact: Bundle
 
   # Deploy on staging slot
