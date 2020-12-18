@@ -18,6 +18,6 @@ stages:
       - task: Npm@1
         inputs: 
           command: publish
-          workingDir: "/npmpackage"
+          workingDir: "npmpackage"
           verbose: true
           publishEndpoint: balanza-npm-ci
