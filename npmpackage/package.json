@@ -1,0 +1,7 @@
+{
+  "name": "test-deploy-package",
+  "description": "A stub package we use to test automatic deploy pipelines",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}

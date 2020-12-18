@@ -1,0 +1,22 @@
+# Azure DevOps pipeline to release a new version and deploy to production.
+
+variables:
+  NODE_VERSION: '10.14.1'
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+
+# Only manual activations are intended
+trigger: none
+pr: none
+
+stages:
+
+  - stage: PublishPackage
+    jobs:  
+    - job: publish
+      steps:   
+      - task: Npm@1
+        inputs: 
+          command: publish
+          workingDir: "/npmpackage"
+          verbose: true
