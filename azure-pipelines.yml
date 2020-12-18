@@ -57,8 +57,7 @@ stages:
         timeoutInMinutes: 1440 # task times out in 1 day
         inputs:
           notifyUsers: |
-            test@test.com
-            example@example.com
+            emanuele.decupis@gmail.com
           instructions: 'Please validate the build configuration and resume'
           onTimeout: 'resume'
 
