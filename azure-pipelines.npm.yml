@@ -20,3 +20,4 @@ stages:
           command: publish
           workingDir: "/npmpackage"
           verbose: true
+          publishEndpoint: balanza-npm-ci
