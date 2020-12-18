@@ -3,16 +3,6 @@
 variables:
   NODE_VERSION: '10.14.1'
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-  - name: 'PRODUCTION_APPS'
-    readonly: true
-    type: object
-    value:
-      fns3_app1:
-        appname: io-d-fn3-tdeploy
-        rg: io-d-rg-tdeploy
-      fns3_app2:
-        appname: io-d-fn3-tdeploy2
-        rg: io-d-rg-tdeploy
 
 parameters:
   - name: 'RELEASE_SEMVER'
