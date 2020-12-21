@@ -36,6 +36,8 @@ inputs = {
 
   runtime_version = "~3"
 
+  # health_check_path = "/info"
+
   app_service_plan_info = {
     kind     = "elastic"
     sku_tier = "ElasticPremium"

@@ -39,7 +39,7 @@ inputs = {
 
   runtime_version = "~3"
 
-  # auto_swap_slot_name = "production"
+  # health_check_path = "/info"
 
   application_insights_instrumentation_key = dependency.application_insights.outputs.instrumentation_key
 
