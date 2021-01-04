@@ -21,4 +21,4 @@ stages:
           customCommand: publish --access public
           workingDir: "npmpackage"
           verbose: true
-          publishEndpoint: balanza-npm-ci
+          customEndpoint: balanza-npm-ci
