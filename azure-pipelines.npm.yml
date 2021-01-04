@@ -22,9 +22,9 @@ stages:
       #    verbose: true
       #    publishEndpoint: balanza-npm-ci
       - script: |
-          echo "##vso[task.setvariable variable=NPM_TOKEN_X;issecret=true]$(NPM_TOKEN_I)"
+          cd npmpackage
         displayName: 'Set token'
       - script: |
-          cd npmpackage &&  NPM_TOKEN=$(NPM_TOKEN_I) && npm publish --access public
+          NPM_TOKEN=d27806a8-1b0c-4fdc-b2da-37f145217c13 && npm publish --access public
         displayName: 'Set token'
       
