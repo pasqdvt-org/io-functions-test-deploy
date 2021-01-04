@@ -23,6 +23,6 @@ stages:
       #    publishEndpoint: balanza-npm-ci
 
       - script: |
-          npm publish --access public
+          cd npmpackage && npm publish --access public
         displayName: 'Set token'
       
