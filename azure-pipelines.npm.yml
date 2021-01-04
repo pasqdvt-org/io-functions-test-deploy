@@ -21,10 +21,8 @@ stages:
       #    workingDir: "npmpackage"
       #    verbose: true
       #    publishEndpoint: balanza-npm-ci
+      
       - script: |
-          cd npmpackage
-        displayName: 'Set token'
-      - script: |
-          NPM_TOKEN=d27806a8-1b0c-4fdc-b2da-37f145217c13 && npm publish --access public
+          cd npmpackage && NPM_TOKEN=d27806a8-1b0c-4fdc-b2da-37f145217c13 && npm publish --access public
         displayName: 'Set token'
       
