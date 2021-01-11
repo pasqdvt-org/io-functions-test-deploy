@@ -75,6 +75,10 @@ stages:
         - template: azure-templates/setup-project.yml
         
         - script: |
+            yarn generate
+          displayName: 'Generate definitions'
+
+        - script: |
             yarn test:coverage
           displayName: 'Unit tests exec'
 

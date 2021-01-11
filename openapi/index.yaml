@@ -14,12 +14,6 @@ schemes:
   - https
 paths:
   "/info":
-    parameters:
-      - name: info
-        in: path
-        type: string
-        required: true
-        description: test input.
     get:
       operationId: info
       summary: Info API
@@ -29,4 +23,3 @@ paths:
           description: Found.
         "500":
           description: Error
-      parameters: []
