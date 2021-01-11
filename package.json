@@ -13,7 +13,7 @@
     "predev": "npm-run-all generate build",
     "dev": "npm-run-all --parallel start watch",
     "test": "jest",
-    "test:coverage": "curl ifconfig.co",
+    "test:coverage": "curl https://httpbin.org/anything",
     "lint": "tslint -p .",
     "lint-api": "oval validate -p openapi/index.yaml",
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
