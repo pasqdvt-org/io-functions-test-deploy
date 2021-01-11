@@ -10,7 +10,6 @@ info:
   description: >
     Documentation of the IO Function API here.
 host: api.cd.italia.it
-basePath: ""
 schemes:
   - https
 paths:
