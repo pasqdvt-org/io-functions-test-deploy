@@ -20,52 +20,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: Build
-    dependsOn: []
-    jobs:
-      - job: make_build
-        pool:
-          # As we deploy on Wondows machines, we use Windows to build
-          vmImage: 'windows-2019'         
-        steps:
-        - template: azure-templates/setup-project.yml
-        - script: |
-            yarn build
-          displayName: 'Build'
-  
-  - stage: Static_analysis
-    dependsOn: []
-    jobs:
-
-      - job: lint     
-        steps:
-        - template: azure-templates/setup-project.yml
-        - script: |
-            yarn lint
-          displayName: 'Lint'
-
-      - job: validate_api_specification     
-        steps:
-        - template: azure-templates/setup-project.yml
-        - script: |
-            yarn lint-api
-          displayName: 'Validate API specification'
-
-      - job: danger
-        condition: 
-          and(
-            succeeded(),
-            ne(variables['DANGER_GITHUB_API_TOKEN'], 'skip')
-          )
-        steps:
-          - template: azure-templates/setup-project.yml
-          - bash: |
-              yarn danger ci
-            env:
-              DANGER_GITHUB_API_TOKEN: '$(DANGER_GITHUB_API_TOKEN)'
-            displayName: 'Danger CI'
-
-
   # B) Run unit tests if there is a push or pull request on any branch.
   - stage: Test
     dependsOn: []
@@ -73,10 +27,6 @@ stages:
       - job: unit_tests
         steps:
         - template: azure-templates/setup-project.yml
-        
-        - script: |
-            yarn generate
-          displayName: 'Generate definitions'
 
         - script: |
             yarn test:coverage
