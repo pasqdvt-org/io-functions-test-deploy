@@ -20,7 +20,9 @@
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
     "preversion": "auto-changelog  --config .auto-changelog.json --unreleased --stdout --template preview.hbs",
-    "version": "auto-changelog -p --config .auto-changelog.json --unreleased && git add CHANGELOG.md"
+    "version": "auto-changelog -p --config .auto-changelog.json --unreleased && git add CHANGELOG.md",
+    "generate:definitions": "shx rm -rf ./generated/definitions && gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions",
+    "generate": "npm-run-all generate:*"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",

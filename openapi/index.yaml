@@ -10,40 +10,24 @@ info:
   description: >
     Documentation of the IO Function API here.
 host: api.cd.italia.it
-basePath: "/template"
+basePath: ""
 schemes:
   - https
 paths:
-  "/echo/{input}":
+  "/info":
     parameters:
-      - name: input
+      - name: info
         in: path
         type: string
         required: true
         description: test input.
     get:
-      operationId: echo
-      summary: Echo API
+      operationId: info
+      summary: Info API
       description: Some API description here.
       responses:
         "200":
           description: Found.
-          schema:
-            "$ref": "#/definitions/Input"
-          examples:
-            application/json:
-              id: "10000AAAA"
-              output: "hello world !"
-        "401":
-          description: Unauthorized
-        "404":
-          description: Not found.
+        "500":
+          description: Error
       parameters: []
-definitions:
-  Input:
-    type: object
-    properties:
-      id:
-        type: string
-      output:
-        type: string
