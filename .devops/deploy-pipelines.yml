@@ -24,15 +24,7 @@ pr: none
 # runtime, the pipeline is currently configured to use a Windows hosted image for
 # the build and deploy.
 pool:
-  vmImage: 'windows-2019'
-
-resources:
-  repositories:
-    - repository: pagopaCommons
-      type: github
-      name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v4
-      endpoint: 'pasqdvt-bot'
+  vmImage: 'ubuntu-latest'
 
 stages:
 
