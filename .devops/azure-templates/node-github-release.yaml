@@ -26,6 +26,8 @@ parameters:
   type: string
 - name: 'gitHubConnection'
   type: string
+- name: 'gitToken'
+  type: string
 
 # Node runtime parameters
 - name: 'nodeVersion'
@@ -44,7 +46,7 @@ steps:
 
 # setup git author
 - script: |
-    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}" && git config --global user.password $(GITHUB_TOKEN)
+    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}" && git config --global user.password "${{ parameters.gitToken }}"
   displayName: 'Git setup' 
 
 # Without this step, changes would be applied to a detached head
