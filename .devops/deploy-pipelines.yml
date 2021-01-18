@@ -64,6 +64,7 @@ stages:
               gitEmail: $(GIT_EMAIL)
               gitUsername: $(GIT_USERNAME)
               gitHubConnection: $(GITHUB_CONNECTION)
+              gitToken: $(GITHUB_TOKEN)
               nodeVersion: $(NODE_VERSION)
               pkg_cache_version_id: $(CACHE_VERSION_ID)
               pkg_cache_folder: $(YARN_CACHE_FOLDER)
