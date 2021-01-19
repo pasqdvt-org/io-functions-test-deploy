@@ -46,7 +46,14 @@ steps:
 
 # setup git author
 - script: |
-    git config --global user.email "${{ parameters.gitEmail }}" && git config --global user.name "${{ parameters.gitUsername }}" && git remote set-url origin https://pasqdvt-bot:$(GIT_TOKEN)@github.com/pasqdvt-org/io-functions-test-deploy.git
+    git config --global user.email "${{ parameters.gitEmail }}" && \
+    git config --global user.name "${{ parameters.gitUsername }}" && \
+    URL=$(git remote get-url --push origin) && \
+    REMOVE="github.com" && \
+    ADD="${{ parameters.gitUsername }}:${GIT_TOKEN}@github.com" && \
+    URL=$(echo "${URL/$REMOVE/$ADD}") && \
+    git remote set-url origin ${URL}
+    # git remote set-url origin https://pasqdvt-bot:$(GIT_TOKEN)@github.com/pasqdvt-org/io-functions-test-deploy.git
   displayName: 'Git setup' 
 
 # Without this step, changes would be applied to a detached head
